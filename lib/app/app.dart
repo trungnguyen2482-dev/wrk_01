@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/home/presentation/home_screen.dart';
+import '../features/auth/presentation/login_screen.dart';
 import 'app_theme.dart';
 
 class MyApp extends StatelessWidget {
@@ -9,9 +9,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Lên kèo!',
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
-      home: const HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }
