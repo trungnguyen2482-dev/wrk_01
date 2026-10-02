@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'widgets/login_background.dart';
-import 'widgets/login_illustration.dart';
+import '../../../core/widgets/friends_illustration.dart';
+import '../../../core/widgets/party_background.dart';
+import '../../home/presentation/game_list_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,11 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     FocusScope.of(context).unfocus();
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        const SnackBar(content: Text('Dữ liệu hợp lệ — đây là bản demo.')),
-      );
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (context) => const GameListScreen()),
+    );
   }
 
   @override
@@ -70,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          const LoginBackground(),
+          const PartyBackground(),
           SafeArea(
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -101,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             SizedBox(
                               height: illustrationHeight,
-                              child: const LoginIllustration(),
+                              child: const FriendsIllustration(),
                             ),
                             const SizedBox(height: 10),
                             Text(

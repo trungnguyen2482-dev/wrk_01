@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginIllustration extends StatelessWidget {
-  const LoginIllustration({super.key});
+class FriendsIllustration extends StatelessWidget {
+  const FriendsIllustration({super.key});
 
   @override
   Widget build(BuildContext context) {

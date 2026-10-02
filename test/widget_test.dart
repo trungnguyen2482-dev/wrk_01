@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/app/app.dart';
 import 'package:flutter_application_1/app/app_theme.dart';
 import 'package:flutter_application_1/features/auth/presentation/login_screen.dart';
+import 'package:flutter_application_1/features/home/presentation/game_list_screen.dart';
+import 'package:flutter_application_1/features/home/presentation/widgets/game_card.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final _emailField = find.byType(TextFormField).at(0);
 final _passwordField = find.byType(TextFormField).at(1);
 final _loginButton = find.widgetWithText(FilledButton, 'Đăng nhập');
-const _successMessage = 'Dữ liệu hợp lệ — đây là bản demo.';
 
 Future<void> _submit(WidgetTester tester) async {
   await tester.ensureVisible(_loginButton);
@@ -44,7 +45,7 @@ void main() {
 
     expect(find.text('Vui lòng nhập email.'), findsOneWidget);
     expect(find.text('Vui lòng nhập mật khẩu.'), findsOneWidget);
-    expect(find.text(_successMessage), findsNothing);
+    expect(find.byType(GameListScreen), findsNothing);
   });
 
   testWidgets('Rejects whitespace-only and malformed emails', (tester) async {
@@ -67,7 +68,7 @@ void main() {
         ),
         findsOneWidget,
       );
-      expect(find.text(_successMessage), findsNothing);
+      expect(find.byType(GameListScreen), findsNothing);
     }
   });
 
@@ -78,24 +79,29 @@ void main() {
 
     expect(find.text('Vui lòng nhập mật khẩu.'), findsOneWidget);
     expect(find.text('Email không đúng định dạng.'), findsNothing);
-    expect(find.text(_successMessage), findsNothing);
+    expect(find.byType(GameListScreen), findsNothing);
   });
 
-  testWidgets('Trims email, preserves password, and shows demo success', (
-    tester,
-  ) async {
-    await tester.pumpWidget(const MyApp());
-    await tester.enterText(_emailField, '  friend@example.com  ');
-    await tester.enterText(_passwordField, '  mật khẩu  ');
-    await _submit(tester);
+  testWidgets(
+    'Valid data opens games; back preserves trimmed email and password',
+    (tester) async {
+      await tester.pumpWidget(const MyApp());
+      await tester.enterText(_emailField, '  friend@example.com  ');
+      await tester.enterText(_passwordField, '  mật khẩu  ');
+      await _submit(tester);
 
-    final email = tester.widget<TextField>(
-      find.descendant(of: _emailField, matching: find.byType(TextField)),
-    );
-    expect(email.controller!.text, 'friend@example.com');
-    expect(_passwordInput(tester).controller!.text, '  mật khẩu  ');
-    expect(find.text(_successMessage), findsOneWidget);
-  });
+      expect(find.byType(GameListScreen), findsOneWidget);
+      await tester.tap(find.byTooltip('Quay lại đăng nhập'));
+      await tester.pumpAndSettle();
+
+      final email = tester.widget<TextField>(
+        find.descendant(of: _emailField, matching: find.byType(TextField)),
+      );
+      expect(email.controller!.text, 'friend@example.com');
+      expect(_passwordInput(tester).controller!.text, '  mật khẩu  ');
+      expect(find.byType(GameListScreen), findsNothing);
+    },
+  );
 
   testWidgets('Does not trim a password made of spaces', (tester) async {
     await tester.pumpWidget(const MyApp());
@@ -103,8 +109,10 @@ void main() {
     await tester.enterText(_passwordField, '   ');
     await _submit(tester);
 
+    expect(find.byType(GameListScreen), findsOneWidget);
+    await tester.tap(find.byTooltip('Quay lại đăng nhập'));
+    await tester.pumpAndSettle();
     expect(_passwordInput(tester).controller!.text, '   ');
-    expect(find.text(_successMessage), findsOneWidget);
   });
 
   testWidgets('Visibility toggle preserves password through both states', (
@@ -153,8 +161,91 @@ void main() {
       await tester.enterText(_passwordField, 'secret');
       await _submit(tester);
 
-      expect(find.text(_successMessage), findsOneWidget);
+      expect(find.byType(GameListScreen), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
   );
+
+  testWidgets('Platform Back returns to the existing login form', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const MyApp());
+    await tester.enterText(_emailField, 'friend@example.com');
+    await tester.enterText(_passwordField, 'secret');
+    await _submit(tester);
+    expect(find.byType(GameListScreen), findsOneWidget);
+
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    expect(find.byType(GameListScreen), findsNothing);
+    expect(_passwordInput(tester).controller!.text, 'secret');
+  });
+
+  testWidgets('All six game cards show their matching development message', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(theme: AppTheme.light, home: const GameListScreen()),
+    );
+    const games = {
+      'Truth or Dare': 'Nói thật hay nhận thử thách?',
+      'Coup': 'Đấu trí, đánh lừa và giành lợi thế',
+      'Ma sói': 'Suy luận và tìm người ẩn vai',
+      'Đoán từ': 'Gợi ý thật khéo, đoán thật nhanh',
+      'Đoán hình': 'Vẽ một chút, đoán một chút',
+      'Thử thách theo đội': 'Chia đội và cùng vượt thử thách',
+    };
+    for (final game in games.entries) {
+      final card = find.widgetWithText(GameCard, game.key);
+      await tester.scrollUntilVisible(
+        card,
+        120,
+        scrollable: find.byType(Scrollable),
+      );
+      expect(
+        find.descendant(of: card, matching: find.text(game.value)),
+        findsOneWidget,
+      );
+      await tester.tap(card);
+      await tester.pumpAndSettle();
+      expect(find.text('${game.key} đang được phát triển'), findsOneWidget);
+      await tester.pump(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
+    }
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Game list scrolls on a small screen with large text', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 480);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: const TextScaler.linear(2)),
+          child: child!,
+        ),
+        home: const GameListScreen(),
+      ),
+    );
+    final lastTitle = find.text('Thử thách theo đội');
+    await tester.scrollUntilVisible(
+      lastTitle,
+      150,
+      scrollable: find.byType(Scrollable),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(lastTitle);
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Thử thách theo đội đang được phát triển'),
+      findsOneWidget,
+    );
+    expect(tester.takeException(), isNull);
+  });
 }

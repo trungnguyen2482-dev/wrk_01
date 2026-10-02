@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class LoginBackground extends StatelessWidget {
-  const LoginBackground({super.key});
+class PartyBackground extends StatelessWidget {
+  const PartyBackground({super.key});
 
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      child: CustomPaint(painter: _LoginBackgroundPainter()),
+      child: CustomPaint(painter: _PartyBackgroundPainter()),
     );
   }
 }
 
-class _LoginBackgroundPainter extends CustomPainter {
+class _PartyBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final bounds = Offset.zero & size;
@@ -43,5 +43,5 @@ class _LoginBackgroundPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_LoginBackgroundPainter oldDelegate) => false;
+  bool shouldRepaint(_PartyBackgroundPainter oldDelegate) => false;
 }
