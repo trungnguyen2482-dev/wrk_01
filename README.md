@@ -1,9 +1,10 @@
-# flutter_application_1
+# Lên kèo! — đăng nhập demo
 
-Bài thực tập Flutter: màn hình danh sách cơ bản, theo phần 4 và phần 5
-trong tài liệu onboarding công ty. Tên project được giữ nguyên.
+Ứng dụng Flutter thực tập, giữ package và thư mục `flutter_application_1`.
+Tên ứng dụng là **Lên kèo!**; Truth or Dare chỉ là một trò chơi dự kiến trong
+app, chưa được triển khai. Phạm vi hiện tại chỉ có màn hình đăng nhập demo.
 
-## Chạy trên Chrome
+## Chạy
 
 Mở terminal tại thư mục `flutter_application_1`:
 
@@ -12,11 +13,19 @@ flutter pub get
 flutter run -d chrome
 ```
 
-Màn hình hiển thị năm mục: Dart, Widget, Layout, State và Git.
-Danh sách cuộn khi cửa sổ thấp, giới hạn chiều rộng 720 logical pixels
-khi cửa sổ rộng và hỗ trợ phóng to chữ.
+## Hành vi
 
-## Cấu trúc
+- Nhập email và mật khẩu; mật khẩu mặc định được che.
+- Nút mắt hiện/ẩn mật khẩu, không thay đổi nội dung.
+- Form trim email hai đầu, kiểm tra email không rỗng và định dạng cơ bản.
+- Mật khẩu không rỗng, không trim; chuỗi chỉ có dấu cách vẫn hợp lệ
+  theo yêu cầu demo hiện tại.
+- Hiện lỗi dưới đúng ô nhập. Dữ liệu hợp lệ hiển thị SnackBar:
+  “Dữ liệu hợp lệ — đây là bản demo.”
+- Không xác thực tài khoản thật, không gọi API, lưu hay log mật khẩu.
+- Bố cục cuộn khi cửa sổ thấp hoặc bàn phím xuất hiện.
+
+## Cấu trúc công ty
 
 ```text
 lib/
@@ -32,44 +41,39 @@ lib/
       data/
       domain/
       presentation/
+        login_screen.dart
     home/
-      presentation/
-        home_screen.dart
   main.dart
 ```
 
-- `main.dart`: entry point.
-- `app/`: cấu hình MaterialApp và theme.
-- `features/home/presentation/`: màn hình danh sách, dữ liệu mẫu cục bộ.
-- Các thư mục chưa dùng giữ bằng `.gitkeep` theo mẫu công ty.
-  Chưa cần repositories, network client, domain logic, routes hoặc localization
-  cho một màn hình. Không thêm API, đăng nhập hoặc package quản lý trạng thái.
-- `dart_basics.dart` là bài tập console riêng; không được import vào app web.
+Các thư mục chưa dùng giữ bằng `.gitkeep`; không thêm tầng xử lý hoặc
+dependency chưa cần thiết. `LoginScreen` dùng Form và state cục bộ,
+giải phóng TextEditingController trong dispose.
 
 ## Kiểm tra
 
 ```powershell
-dart format lib test dart_basics.dart
+dart format lib/app/app.dart lib/app/app_theme.dart lib/features/auth/presentation/login_screen.dart test/widget_test.dart
 flutter analyze
 flutter test
-flutter test --platform chrome
-flutter build web
-dart run dart_basics.dart
+flutter build web --no-web-resources-cdn
 ```
 
-Test kiểm tra đủ năm mục và khả năng cuộn ở kích thước 320 × 480
-với hệ số chữ 2. Kiểm tra thủ công trên Chrome: mở app, thu hẹp cửa sổ,
-cuộn đến mục Git, xác nhận chữ tiếng Việt hiển thị đúng và không có tràn bố cục.
+Widget test bao phủ ô trống, email sai định dạng, mật khẩu rỗng,
+email được trim, mật khẩu giữ nguyên, SnackBar, nút mắt, màn hình 320 × 480
+với hệ số chữ 2 và vùng bàn phím mô phỏng 200 pixels.
+Chrome headless đã được chụp và kiểm tra ở desktop 1280 × 900
+và điện thoại 360 × 740. Bàn phím thật trên thiết bị chưa được kiểm tra.
 
-## Git và nộp bài
+## Git và bàn giao
 
-Nhánh làm việc: `feature/basic-list`. Repository cục bộ chưa có commit
-hoặc remote. Do chưa có commit ban đầu, nhánh làm việc chưa có nhánh đích
-`main` để mở PR; cần lịch sử gốc trước khi thực hành PR.
+Nhánh làm việc: `feature/login-screen`, đã push lên repository
+[trungnguyen2482-dev/wrk-01](https://github.com/trungnguyen2482-dev/wrk-01).
+Đã kiểm tra repository là **Private** trước khi push.
+[PR #1](https://github.com/trungnguyen2482-dev/wrk-01/pull/1) vào nhánh mặc định
+thực tế `main`, đã fetch trước khi đặt nền nhánh feature.
+Reviewer chưa được cung cấp. Không tự approve hoặc merge PR.
 
-Chưa commit, push, tạo repository từ xa hoặc tạo PR theo yêu cầu của người dùng.
-Repository GitHub/GitLab chứa code hoặc tài liệu công ty phải **Private**.
-`publish_to: 'none'` ngăn publish package; không thiết lập quyền riêng tư
-cho repository GitHub/GitLab.
-
-Xem [báo cáo đối chiếu](docs/onboarding_report.md).
+- [Báo cáo đối chiếu](docs/onboarding_report.md)
+- [Câu hỏi gửi người hướng dẫn](docs/questions_for_mentor.txt)
+- [Nội dung PR đã chuẩn bị](docs/pr_description.md)
