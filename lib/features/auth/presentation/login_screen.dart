@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/login_background.dart';
+import 'widgets/login_illustration.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -58,139 +61,187 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = theme.colorScheme;
+    final keyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
+    final labelStyle = theme.textTheme.titleMedium?.copyWith(
+      fontWeight: FontWeight.w600,
+    );
 
     return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: (constraints.maxHeight - 48).clamp(
-                    0.0,
-                    double.infinity,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          const LoginBackground(),
+          SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final illustrationHeight = keyboardVisible
+                    ? 84.0
+                    : constraints.maxHeight < 800
+                    ? 136.0
+                    : 176.0;
+
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 20,
                   ),
-                ),
-                child: Center(
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 440),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Icon(
-                          Icons.celebration_rounded,
-                          size: 48,
-                          color: colors.primary,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Lên kèo!',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.headlineLarge?.copyWith(
-                            color: colors.primary,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Tụ đủ bạn, lên kèo chơi!',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyLarge,
-                        ),
-                        const SizedBox(height: 32),
-                        Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            color: colors.surface,
-                            borderRadius: BorderRadius.circular(28),
-                            border: Border.all(color: colors.outlineVariant),
-                          ),
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text(
-                                  'Đăng nhập',
-                                  style: theme.textTheme.headlineSmall
-                                      ?.copyWith(fontWeight: FontWeight.w700),
-                                ),
-                                const SizedBox(height: 24),
-                                TextFormField(
-                                  controller: _emailController,
-                                  keyboardType: TextInputType.emailAddress,
-                                  textInputAction: TextInputAction.next,
-                                  autocorrect: false,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Email',
-                                    hintText: 'Nhập email của bạn',
-                                    prefixIcon: Icon(
-                                      Icons.mail_outline_rounded,
-                                    ),
-                                    errorMaxLines: 3,
+                    constraints: BoxConstraints(
+                      minHeight: (constraints.maxHeight - 40).clamp(
+                        0.0,
+                        double.infinity,
+                      ),
+                    ),
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 440),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(
+                              height: illustrationHeight,
+                              child: const LoginIllustration(),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Lên kèo!',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontFamily: 'Baloo2',
+                                fontWeight: FontWeight.w800,
+                                fontSize: 56,
+                                height: 1.1,
+                                letterSpacing: -1.2,
+                                color: Color(0xFF4E2398),
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              'Tụ đủ bạn, lên kèo chơi!',
+                              textAlign: TextAlign.center,
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: const Color(0xFF574771),
+                              ),
+                            ),
+                            const SizedBox(height: 26),
+                            Container(
+                              padding: const EdgeInsets.all(24),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(28),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x0C5B21B6),
+                                    blurRadius: 32,
+                                    offset: Offset(0, 12),
                                   ),
-                                  validator: _validateEmail,
-                                ),
-                                const SizedBox(height: 20),
-                                TextFormField(
-                                  controller: _passwordController,
-                                  obscureText: _obscurePassword,
-                                  autocorrect: false,
-                                  enableSuggestions: false,
-                                  textInputAction: TextInputAction.done,
-                                  decoration: InputDecoration(
-                                    labelText: 'Mật khẩu',
-                                    prefixIcon: const Icon(
-                                      Icons.lock_outline_rounded,
+                                ],
+                              ),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Text(
+                                      'Đăng nhập',
+                                      style: theme.textTheme.headlineMedium
+                                          ?.copyWith(
+                                            fontFamily: 'Baloo2',
+                                            fontWeight: FontWeight.w800,
+                                            color: const Color(0xFF241348),
+                                          ),
                                     ),
-                                    errorMaxLines: 3,
-                                    suffixIcon: IconButton(
-                                      tooltip: _obscurePassword
-                                          ? 'Hiện mật khẩu'
-                                          : 'Ẩn mật khẩu',
-                                      onPressed: () {
-                                        setState(() {
-                                          _obscurePassword = !_obscurePassword;
-                                        });
-                                      },
-                                      icon: Icon(
-                                        _obscurePassword
-                                            ? Icons.visibility_outlined
-                                            : Icons.visibility_off_outlined,
+                                    const SizedBox(height: 20),
+                                    Text('Email', style: labelStyle),
+                                    const SizedBox(height: 8),
+                                    Semantics(
+                                      label: 'Email',
+                                      child: TextFormField(
+                                        controller: _emailController,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        textInputAction: TextInputAction.next,
+                                        autocorrect: false,
+                                        decoration: const InputDecoration(
+                                          hintText: 'Nhập email của bạn',
+                                          prefixIcon: Icon(
+                                            Icons.mail_outline_rounded,
+                                          ),
+                                          errorMaxLines: 3,
+                                        ),
+                                        validator: _validateEmail,
                                       ),
                                     ),
-                                  ),
-                                  validator: _validatePassword,
-                                  onFieldSubmitted: (_) => _submit(),
+                                    const SizedBox(height: 18),
+                                    Text('Mật khẩu', style: labelStyle),
+                                    const SizedBox(height: 8),
+                                    Semantics(
+                                      label: 'Mật khẩu',
+                                      child: TextFormField(
+                                        controller: _passwordController,
+                                        obscureText: _obscurePassword,
+                                        autocorrect: false,
+                                        enableSuggestions: false,
+                                        textInputAction: TextInputAction.done,
+                                        decoration: InputDecoration(
+                                          hintText: 'Nhập mật khẩu',
+                                          prefixIcon: const Icon(
+                                            Icons.lock_outline_rounded,
+                                          ),
+                                          errorMaxLines: 3,
+                                          suffixIcon: IconButton(
+                                            tooltip: _obscurePassword
+                                                ? 'Hiện mật khẩu'
+                                                : 'Ẩn mật khẩu',
+                                            onPressed: () {
+                                              setState(() {
+                                                _obscurePassword =
+                                                    !_obscurePassword;
+                                              });
+                                            },
+                                            icon: Icon(
+                                              _obscurePassword
+                                                  ? Icons.visibility_outlined
+                                                  : Icons
+                                                        .visibility_off_outlined,
+                                            ),
+                                          ),
+                                        ),
+                                        validator: _validatePassword,
+                                        onFieldSubmitted: (_) => _submit(),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 24),
+                                    FilledButton(
+                                      onPressed: _submit,
+                                      child: const Text('Đăng nhập'),
+                                    ),
+                                    const SizedBox(height: 18),
+                                    Text(
+                                      'Bản demo — chưa kết nối tài khoản',
+                                      textAlign: TextAlign.center,
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            color: const Color(0xFF80709F),
+                                          ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 24),
-                                FilledButton(
-                                  onPressed: _submit,
-                                  child: const Text('Đăng nhập'),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                        const SizedBox(height: 20),
-                        Text(
-                          'Bản demo — chưa kết nối tài khoản',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: colors.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

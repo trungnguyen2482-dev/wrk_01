@@ -112,6 +112,8 @@ void main() {
   ) async {
     await tester.pumpWidget(const MyApp());
     await tester.enterText(_passwordField, '  secret  ');
+    await tester.ensureVisible(find.byTooltip('Hiện mật khẩu'));
+    await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Hiện mật khẩu'));
     await tester.pump();
 
