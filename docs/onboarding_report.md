@@ -16,7 +16,7 @@ Yêu cầu giao diện cụ thể lấy từ chỉ dẫn mới nhất của ngư
 | Không gọi API, lưu/log mật khẩu | Không có xử lý xác thực hay persistence. |
 | Quản lý tài nguyên | Dispose cả hai TextEditingController. |
 | Cấu trúc Mục 2 | Giữ app, core, features/auth/data, domain, presentation, features/home và main.dart. |
-| Giữ tên project và dependency/lint | Không thay pubspec.yaml hoặc analysis_options.yaml. |
+| Giữ tên project và dependency/lint | Giữ tên package, dependency và lint; pubspec.yaml chỉ đăng ký font Baloo 2 cục bộ cho giao diện theo mẫu. |
 | Dọn code danh sách | Xóa home_screen.dart và dữ liệu Dart/Widget/Layout/State/Git; thay test danh sách. Giữ features/home/.gitkeep theo mẫu công ty. |
 | Git feature branch | feature/login-screen; không làm trên nhánh chung. |
 | Private, commit, push, PR và reviewer | Đã tạo repo Private wrk-01, kiểm tra Private trước push và mở PR #1 vào main. Chưa gán reviewer; câu hỏi ghi vào file TXT theo yêu cầu người dùng. |
@@ -25,6 +25,9 @@ Yêu cầu giao diện cụ thể lấy từ chỉ dẫn mới nhất của ngư
 
 - lib/app/app.dart: dùng LoginScreen, đổi tên MaterialApp.
 - lib/app/app_theme.dart: mở rộng theme đang có với ô nhập/nút bo góc, nền sáng.
+- lib/features/auth/presentation/widgets/login_illustration.dart: minh họa vector nhóm bạn và xúc xắc.
+- lib/features/auth/presentation/widgets/login_background.dart: nền và hình trang trí nhẹ.
+- assets/fonts/baloo_2_variable.ttf, assets/fonts/ofl.txt, pubspec.yaml: font tiếng Việt và giấy phép, không thêm dependency.
 - lib/features/auth/presentation/login_screen.dart: form demo và vòng đời controller.
 - lib/features/home/presentation/home_screen.dart: xóa vì không còn dùng.
 - lib/features/home/.gitkeep: giữ thư mục mẫu.
@@ -40,18 +43,20 @@ Code danh sách cũ không có lỗi thực tế; bị thay vì phạm vi đã �
 
 ## Kiểm tra thực tế
 
-- Dart format: đã chạy trên cả bốn file Dart thay đổi.
+- Dart format: lần chỉnh theo mẫu đã chạy trên 5 file Dart thay đổi.
 - Flutter analyze: lần cuối đạt No issues found, exit code 0.
 - Flutter test: 8 test đạt, gồm các trường hợp người dùng yêu cầu.
   Đã chạy lại test responsive với đúng AppTheme của ứng dụng.
 - Flutter build web --no-web-resources-cdn: thành công, build/web.
 - Chrome headless: đã chạy bản build qua HTTP server cục bộ; kiểm tra ảnh
-  desktop 1280 × 900 và điện thoại 360 × 740, không thấy tràn.
+  desktop 1280 × 900, điện thoại 360 × 740 và màn hình 320 × 480 sau cuộn,
+  không thấy tràn; form và nút vẫn hiển thị khi cuộn trên màn hình nhỏ.
   Phiên kiểm tra ghi nhận 0 lỗi JavaScript.
 - Chưa kiểm tra bàn phím thật trên Android/iOS; widget test dùng viewInsets
   để mô phỏng vùng bàn phím. Chưa kiểm tra tương tác thủ công trong Chrome có cửa sổ.
 
-Ảnh Chrome ở ../.onboarding_review/login_baseline/, ngoài repository.
+Ảnh Chrome theo mẫu ở ../.onboarding_review/login_baseline/reference_desktop.png,
+reference_mobile.png và reference_small_scrolled.png, ngoài repository.
 Snapshot trước sửa ở .onboarding_review/login_baseline/ trong project,
 được gitignore và không commit. Không dùng mật khẩu tài khoản thật trong test.
 
@@ -85,3 +90,16 @@ PR: https://github.com/trungnguyen2482-dev/wrk-01/pull/1
 Nhánh nguồn feature/login-screen, nhánh đích main thực tế của repo cá nhân.
 Reviewer chưa được cung cấp, ghi trong docs/questions_for_mentor.txt.
 Không tự chọn reviewer, approve hoặc merge PR.
+
+## Cập nhật giao diện theo ảnh được chọn
+
+Minh họa nhóm bạn và xúc xắc bằng CustomPainter, font Baloo 2 tiếng Việt
+đóng gói cục bộ cùng giấy phép OFL. Nền tím nhạt và trang trí nhẹ,
+thẻ trắng bo góc, nhãn trên ô nhập, nút tím tươi. Không sử dụng mockup,
+khung điện thoại, thanh trạng thái hoặc chú thích ngoài ảnh làm giao diện.
+Đây là thay đổi trình bày; không thêm màn hình hoặc chức năng mới.
+
+Giữ nguyên code validation, submit và dispose qua đối chiếu với commit trước.
+Tám widget test vẫn đạt. Test nút mắt được cuộn đến vị trí nút trước khi bấm,
+vì bố cục minh họa mới cao hơn khi cửa sổ thấp. Khi có bàn phím, minh họa
+thu nhỏ còn 84 logical pixels và toàn bộ nội dung tiếp tục cuộn được.

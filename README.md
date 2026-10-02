@@ -42,6 +42,9 @@ lib/
       domain/
       presentation/
         login_screen.dart
+        widgets/
+          login_background.dart
+          login_illustration.dart
     home/
   main.dart
 ```
@@ -49,6 +52,19 @@ lib/
 Các thư mục chưa dùng giữ bằng `.gitkeep`; không thêm tầng xử lý hoặc
 dependency chưa cần thiết. `LoginScreen` dùng Form và state cục bộ,
 giải phóng TextEditingController trong dispose.
+
+## Giao diện theo mẫu
+
+Minh họa nhóm bạn và xúc xắc được vẽ vector bằng CustomPainter, tách riêng
+khỏi form thật. Nền tím nhạt có trang trí nhẹ; thẻ trắng bo góc, nhãn luôn
+ở phía trên ô nhập và nút tím tươi. Không dùng ảnh mockup, khung điện thoại
+hoặc thanh trạng thái làm giao diện. Khi bàn phím xuất hiện, minh họa thu nhỏ
+và toàn bộ nội dung vẫn cuộn được.
+
+Chữ thương hiệu dùng font Baloo 2 đóng gói tại assets/fonts/, hỗ trợ tiếng Việt.
+Nguồn: https://github.com/google/fonts/tree/main/ofl/baloo2
+Giấy phép SIL OFL được lưu cùng font trong assets/fonts/ofl.txt.
+Không thêm package hoặc tải font khi app chạy.
 
 ## Kiểm tra
 
@@ -63,7 +79,8 @@ Widget test bao phủ ô trống, email sai định dạng, mật khẩu rỗng,
 email được trim, mật khẩu giữ nguyên, SnackBar, nút mắt, màn hình 320 × 480
 với hệ số chữ 2 và vùng bàn phím mô phỏng 200 pixels.
 Chrome headless đã được chụp và kiểm tra ở desktop 1280 × 900
-và điện thoại 360 × 740. Bàn phím thật trên thiết bị chưa được kiểm tra.
+và điện thoại 360 × 740; đã kiểm tra thêm 320 × 480 sau cuộn.
+Bàn phím thật trên thiết bị chưa được kiểm tra.
 
 ## Git và bàn giao
 
