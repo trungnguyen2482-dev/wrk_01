@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../features/auth/presentation/login_screen.dart';
+import '../features/travel/presentation/travel_home_screen.dart';
 import 'app_theme.dart';
 
 class MyApp extends StatelessWidget {
@@ -9,10 +9,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lên kèo!',
+      title: 'Du lịch',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
-      home: const LoginScreen(),
+      home: const TravelHomeScreen(),
     );
-  }
-}
+  } // build
+} // MyApp
