@@ -374,8 +374,14 @@ class TravelHomeScreen extends StatelessWidget {
                     const SizedBox(height: 14),
 
                     ElevatedButton(
-                      // Chưa mở màn hình khám phá.
-                      onPressed: () {},
+                      // Mở danh sách tất cả địa điểm.
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (context) => const DestinationListScreen(),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _buttonColor,
                         foregroundColor: _darkText,
