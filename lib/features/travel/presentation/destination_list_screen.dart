@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/du_lieu_mau.dart';
+import 'destination_detail_screen.dart';
 import 'widgets/destination_row.dart';
 
 class DestinationListScreen extends StatelessWidget {
@@ -80,7 +81,19 @@ class DestinationListScreen extends StatelessWidget {
 
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: DestinationRow(destination: destination),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (context) => DestinationDetailScreen(
+                                destination: destination,
+                              ),
+                            ),
+                          );
+                        },
+                        child: DestinationRow(destination: destination),
+                      ),
                     );
                   },
                 ),
