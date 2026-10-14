@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/du_lieu_mau.dart';
+
 class TravelHomeScreen extends StatelessWidget {
   const TravelHomeScreen({super.key});
 
@@ -19,7 +21,7 @@ class TravelHomeScreen extends StatelessWidget {
           fontFamily: 'Roboto',
           bodyColor: _darkText,
           displayColor: _darkText,
-        ),// TextTheme
+        ), // TextTheme
       ), // ThemeData
 
       child: Scaffold(
@@ -29,8 +31,7 @@ class TravelHomeScreen extends StatelessWidget {
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20),
-            keyboardDismissBehavior:
-                ScrollViewKeyboardDismissBehavior.onDrag,
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -43,10 +44,7 @@ class TravelHomeScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Chào Minh Anh',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: _mutedText,
-                            ),
+                            style: TextStyle(fontSize: 14, color: _mutedText),
                           ),
                           SizedBox(height: 8),
                           Text(
@@ -55,11 +53,11 @@ class TravelHomeScreen extends StatelessWidget {
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
                               color: _darkText,
-                            ), 
-                          ), 
+                            ),
+                          ),
                         ], // children của Column
-                      ), 
-                    ), 
+                      ),
+                    ),
                     const SizedBox(width: 12),
 
                     IconButton(
@@ -72,25 +70,22 @@ class TravelHomeScreen extends StatelessWidget {
                         minimumSize: const Size(48, 48),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
-                        ), 
-                      ), 
+                        ),
+                      ),
                       icon: Image.asset(
                         'assets/bell.png',
                         width: 24,
                         height: 24,
                         fit: BoxFit.contain,
-                      ), 
+                      ),
                     ),
                   ], // children của Row
-                ), 
+                ),
                 const SizedBox(height: 24),
 
                 // 2. Thanh tìm kiếm: nhập được chữ.
                 TextField(
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: _darkText,
-                  ), // 
+                  style: const TextStyle(fontSize: 14, color: _darkText), //
                   textInputAction: TextInputAction.search,
 
                   // Nhấn phím tìm kiếm chỉ đóng bàn phím.
@@ -101,16 +96,13 @@ class TravelHomeScreen extends StatelessWidget {
 
                   decoration: InputDecoration(
                     hintText: 'Tìm địa điểm yêu thích',
-                    hintStyle: const TextStyle(
-                      fontSize: 14,
-                      color: _mutedText,
-                    ), 
+                    hintStyle: const TextStyle(fontSize: 14, color: _mutedText),
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 16,
-                    ), 
+                    ),
 
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(16),
@@ -119,23 +111,23 @@ class TravelHomeScreen extends StatelessWidget {
                         width: 24,
                         height: 24,
                         fit: BoxFit.contain,
-                      ), 
-                    ), 
+                      ),
+                    ),
 
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(18),
                       borderSide: BorderSide.none,
-                    ), 
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(18),
                       borderSide: BorderSide.none,
-                    ), 
+                    ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(18),
                       borderSide: BorderSide.none,
-                    ), 
-                  ), 
-                ), 
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20),
 
                 // 3. Các nút danh mục.
@@ -163,7 +155,7 @@ class TravelHomeScreen extends StatelessWidget {
                       const Color(0xFFE7EDFF),
                     ), // _category
                   ], // children của Row
-                ), 
+                ),
                 const SizedBox(height: 28),
 
                 // 4. Banner.
@@ -180,25 +172,23 @@ class TravelHomeScreen extends StatelessWidget {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: _darkText,
-                        ), 
-                      ), 
-                    ), 
+                        ),
+                      ),
+                    ),
 
                     TextButton(
                       onPressed: () {},
-                      style: TextButton.styleFrom(
-                        foregroundColor: _teal,
-                      ), 
+                      style: TextButton.styleFrom(foregroundColor: _teal),
                       child: const Text(
                         'Xem tất cả',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.normal,
-                        ), 
-                      ), 
-                    ), 
+                        ),
+                      ),
+                    ),
                   ], // children của Row
-                ), 
+                ),
                 const SizedBox(height: 12),
 
                 Row(
@@ -206,23 +196,25 @@ class TravelHomeScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: _destinationCard(
-                        'Vịnh Hạ Long',
-                        'Quảng Ninh',
-                        'assets/ha_long.png',
-                        '1.290.000đ',
+                        sampleDestinations[0].name,
+                        sampleDestinations[0].location,
+                        sampleDestinations[0].imageAsset,
+                        _formatPrice(sampleDestinations[0].price),
+                        rating: sampleDestinations[0].rating,
                       ), // _destinationCard
-                    ), 
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: _destinationCard(
-                        'Đà Lạt',
-                        'Lâm Đồng',
-                        'assets/da_lat.png',
-                        '890.000đ',
+                        sampleDestinations[1].name,
+                        sampleDestinations[1].location,
+                        sampleDestinations[1].imageAsset,
+                        _formatPrice(sampleDestinations[1].price),
+                        rating: sampleDestinations[1].rating,
                       ), // _destinationCard
-                    ), 
+                    ),
                   ], // children của Row
-                ), 
+                ),
                 const SizedBox(height: 24),
 
                 // 6. Gợi ý dành cho bạn.
@@ -232,15 +224,15 @@ class TravelHomeScreen extends StatelessWidget {
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: _darkText,
-                  ), 
-                ), 
+                  ),
+                ),
                 const SizedBox(height: 20),
                 _suggestionCard(),
                 const SizedBox(height: 20),
               ], // children của Column chính
             ),
-          ), 
-        ), 
+          ),
+        ),
 
         // 7. Thanh dưới cố định.
         bottomNavigationBar: Container(
@@ -256,43 +248,29 @@ class TravelHomeScreen extends StatelessWidget {
                     'assets/home.png',
                     isSelected: true,
                   ), // _bottomItem
-                  _bottomItem(
-                    'Đã lưu',
-                    'assets/heart.png',
-                  ), // _bottomItem
-                  _bottomItem(
-                    'Chuyến đi',
-                    'assets/ticket.png',
-                  ), // _bottomItem
-                  _bottomItem(
-                    'Cá nhân',
-                    'assets/profile.png',
-                  ), // _bottomItem
+                  _bottomItem('Đã lưu', 'assets/heart.png'), // _bottomItem
+                  _bottomItem('Chuyến đi', 'assets/ticket.png'), // _bottomItem
+                  _bottomItem('Cá nhân', 'assets/profile.png'), // _bottomItem
                 ], // children của Row
-              ), 
-            ), 
-          ), 
-        ), 
-      ), 
-
-    ); 
-
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   } // build
 
-    // Phần 3: vùng bấm gồm cả biểu tượng và chữ.
-  Widget _category(
-    String label,
-    String imagePath,
-    Color backgroundColor,
-  ) {
+  // Phần 3: vùng bấm gồm cả biểu tượng và chữ.
+  Widget _category(String label, String imagePath, Color backgroundColor) {
     return Expanded(
       child: Padding(
         // Tách vùng bấm khỏi danh mục bên cạnh.
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final size =
-                (constraints.maxWidth - 12).clamp(0.0, 68.0).toDouble();
+            final size = (constraints.maxWidth - 12)
+                .clamp(0.0, 68.0)
+                .toDouble();
 
             return TextButton(
               // Bấm được, chưa thực hiện chức năng.
@@ -315,8 +293,8 @@ class TravelHomeScreen extends StatelessWidget {
                 // Bo tròn vùng bấm bên ngoài.
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
-                ), 
-              ), 
+                ),
+              ),
 
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -330,13 +308,10 @@ class TravelHomeScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: BorderRadius.circular(18),
-                      ), 
-                      child: Image.asset(
-                        imagePath,
-                        fit: BoxFit.contain,
-                      ), 
-                    ), 
-                  ), 
+                      ),
+                      child: Image.asset(imagePath, fit: BoxFit.contain),
+                    ),
+                  ),
                   const SizedBox(height: 10),
 
                   Text(
@@ -346,15 +321,15 @@ class TravelHomeScreen extends StatelessWidget {
                       fontSize: 12,
                       fontWeight: FontWeight.normal,
                       color: _darkText,
-                    ), 
-                  ), 
+                    ),
+                  ),
                 ], // children của Column
-              ), 
-            ); 
+              ),
+            );
           }, // builder
-        ), 
-      ), 
-    ); 
+        ),
+      ),
+    );
   } // _category
 
   // Phần 4: dựng banner.
@@ -364,7 +339,7 @@ class TravelHomeScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: _bannerColor,
         borderRadius: BorderRadius.circular(20),
-      ), 
+      ),
 
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -388,8 +363,8 @@ class TravelHomeScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         height: 1.2,
-                      ), 
-                    ), 
+                      ),
+                    ),
                     const SizedBox(height: 8),
 
                     const Text(
@@ -398,8 +373,8 @@ class TravelHomeScreen extends StatelessWidget {
                         fontSize: 11,
                         color: Color(0xFFC8DCDD),
                         height: 1.4,
-                      ), 
-                    ), 
+                      ),
+                    ),
                     const SizedBox(height: 14),
 
                     ElevatedButton(
@@ -412,22 +387,22 @@ class TravelHomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12,
                           vertical: 10,
-                        ), 
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                        ), 
-                      ), 
+                        ),
+                      ),
                       child: const Text(
                         'Khám phá ngay',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
-                        ), 
-                      ), 
-                    ), 
+                        ),
+                      ),
+                    ),
                   ], // children của Column
-                ), 
-              ), 
+                ),
+              ),
               const SizedBox(width: 12),
 
               SizedBox(
@@ -435,17 +410,14 @@ class TravelHomeScreen extends StatelessWidget {
                 child: AspectRatio(
                   // Giữ tỉ lệ khung ảnh nằm ngang.
                   aspectRatio: 224 / 164,
-                  child: Image.asset(
-                    'assets/da_nang.png',
-                    fit: BoxFit.contain,
-                  ), 
-                ), 
-              ), 
+                  child: Image.asset('assets/da_nang.png', fit: BoxFit.contain),
+                ),
+              ),
             ], // children của Row
-          ); 
+          );
         }, // builder
-      ), 
-    ); 
+      ),
+    );
   } // _weekendBanner
 
   // Phần 5: dựng một thẻ địa điểm.
@@ -454,14 +426,15 @@ class TravelHomeScreen extends StatelessWidget {
     String name,
     String location,
     String imagePath,
-    String price,
-  ) {
+    String price, {
+    required double rating,
+  }) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-      ), 
+      ),
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -476,9 +449,9 @@ class TravelHomeScreen extends StatelessWidget {
                     imagePath,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                  ), 
-                ), 
-              ), 
+                  ),
+                ),
+              ),
 
               Positioned(
                 top: 8,
@@ -493,17 +466,17 @@ class TravelHomeScreen extends StatelessWidget {
                     minimumSize: const Size(28, 28),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     shape: const CircleBorder(),
-                  ), 
+                  ),
                   icon: Image.asset(
                     'assets/heart.png',
                     width: 14,
                     height: 14,
                     fit: BoxFit.contain,
-                  ), 
-                ), 
-              ), 
+                  ),
+                ),
+              ),
             ], // children của Stack
-          ), 
+          ),
           const SizedBox(height: 14),
 
           Padding(
@@ -517,8 +490,8 @@ class TravelHomeScreen extends StatelessWidget {
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                     color: _darkText,
-                  ), 
-                ), 
+                  ),
+                ),
                 const SizedBox(height: 10),
 
                 Row(
@@ -528,19 +501,16 @@ class TravelHomeScreen extends StatelessWidget {
                       width: 14,
                       height: 14,
                       fit: BoxFit.contain,
-                    ), 
+                    ),
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(
                         location,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: _mutedText,
-                        ), 
-                      ), 
-                    ), 
+                        style: const TextStyle(fontSize: 12, color: _mutedText),
+                      ),
+                    ),
                   ], // children của Row
-                ), 
+                ),
                 const SizedBox(height: 12),
 
                 Row(
@@ -550,17 +520,14 @@ class TravelHomeScreen extends StatelessWidget {
                       width: 16,
                       height: 16,
                       fit: BoxFit.contain,
-                    ), 
+                    ),
                     const SizedBox(width: 6),
-                    const Text(
-                      '4.8',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: _darkText,
-                      ), 
-                    ), 
+                    Text(
+                      rating.toStringAsFixed(1),
+                      style: const TextStyle(fontSize: 12, color: _darkText),
+                    ),
                   ], // children của Row
-                ), 
+                ),
                 const SizedBox(height: 12),
 
                 Text(
@@ -569,25 +536,26 @@ class TravelHomeScreen extends StatelessWidget {
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: _teal,
-                  ), 
-                ), 
+                  ),
+                ),
                 const SizedBox(height: 4),
               ], // children của Column
-            ), 
-          ), 
+            ),
+          ),
         ], // children của Column
-      ), 
-    ); 
+      ),
+    );
   } // _destinationCard
 
   // Phần 6: dựng thẻ Hội An.
   Widget _suggestionCard() {
+    final destination = sampleDestinations[2];
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-      ), 
+      ),
 
       child: Row(
         children: [
@@ -597,13 +565,10 @@ class TravelHomeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               child: AspectRatio(
                 aspectRatio: 214 / 166,
-                child: Image.asset(
-                  'assets/hoi_an.png',
-                  fit: BoxFit.cover,
-                ), 
-              ), 
-            ), 
-          ), 
+                child: Image.asset(destination.imageAsset, fit: BoxFit.cover),
+              ),
+            ),
+          ),
           const SizedBox(width: 12),
 
           Expanded(
@@ -612,23 +577,20 @@ class TravelHomeScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Phố cổ Hội An',
-                  style: TextStyle(
+                Text(
+                  destination.name,
+                  style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                     color: _darkText,
-                  ), 
-                ), 
+                  ),
+                ),
                 const SizedBox(height: 8),
 
                 const Text(
                   'Văn hóa và ẩm thực',
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: _mutedText,
-                  ), 
-                ), 
+                  style: TextStyle(fontSize: 11, color: _mutedText),
+                ),
                 const SizedBox(height: 14),
 
                 // Giá xuống hàng nếu không đủ chiều rộng.
@@ -645,34 +607,34 @@ class TravelHomeScreen extends StatelessWidget {
                           width: 16,
                           height: 16,
                           fit: BoxFit.contain,
-                        ), 
+                        ),
                         const SizedBox(width: 6),
-                        const Text(
-                          '4.9',
-                          style: TextStyle(
+                        Text(
+                          destination.rating.toStringAsFixed(1),
+                          style: const TextStyle(
                             fontSize: 12,
                             color: _darkText,
-                          ), 
-                        ), 
+                          ),
+                        ),
                       ], // children của Row
-                    ), 
+                    ),
 
-                    const Text(
-                      '750.000đ',
-                      style: TextStyle(
+                    Text(
+                      _formatPrice(destination.price),
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: _teal,
-                      ), 
-                    ), 
+                      ),
+                    ),
                   ], // children của Wrap
-                ), 
+                ),
               ], // children của Column
-            ), 
-          ), 
+            ),
+          ),
         ], // children của Row
-      ), 
-    ); 
+      ),
+    );
   } // _suggestionCard
 
   // Phần 7: bấm được cả vùng biểu tượng và chữ.
@@ -692,8 +654,8 @@ class TravelHomeScreen extends StatelessWidget {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
-          ), 
-        ), 
+          ),
+        ),
 
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -707,16 +669,16 @@ class TravelHomeScreen extends StatelessWidget {
                     ? const Color(0xFFDFF2EF)
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(14),
-              ), 
+              ),
               child: Center(
                 child: Image.asset(
                   imagePath,
                   width: 24,
                   height: 24,
                   fit: BoxFit.contain,
-                ), 
-              ), 
-            ), 
+                ),
+              ),
+            ),
             const SizedBox(height: 6),
 
             Text(
@@ -726,11 +688,20 @@ class TravelHomeScreen extends StatelessWidget {
                 fontSize: 11,
                 fontWeight: FontWeight.normal,
                 color: isSelected ? _teal : _mutedText,
-              ), 
-            ), 
+              ),
+            ),
           ], // children của Column
-        ), 
-      ), 
-    ); 
+        ),
+      ),
+    );
   } // _bottomItem
+
+  // Chuyển giá dạng số thành chữ có dấu phân cách hàng nghìn.
+  String _formatPrice(int price) {
+    final formatted = price.toString().replaceAllMapped(
+      RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
+      (match) => '${match[1]}.',
+    );
+    return '$formattedđ';
+  }
 } // TravelHomeScreen
