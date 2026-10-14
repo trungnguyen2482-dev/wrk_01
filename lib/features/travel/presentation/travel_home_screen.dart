@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/du_lieu_mau.dart';
+import 'destination_list_screen.dart';
 
 class TravelHomeScreen extends StatelessWidget {
   const TravelHomeScreen({super.key});
@@ -177,7 +178,13 @@ class TravelHomeScreen extends StatelessWidget {
                     ),
 
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (context) => const DestinationListScreen(),
+                          ),
+                        );
+                      },
                       style: TextButton.styleFrom(foregroundColor: _teal),
                       child: const Text(
                         'Xem tất cả',
