@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/du_lieu_mau.dart';
+import 'destination_detail_screen.dart';
 import 'destination_list_screen.dart';
 
 class TravelHomeScreen extends StatelessWidget {
@@ -202,23 +203,11 @@ class TravelHomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: _destinationCard(
-                        sampleDestinations[0].name,
-                        sampleDestinations[0].location,
-                        sampleDestinations[0].imageAsset,
-                        _formatPrice(sampleDestinations[0].price),
-                        rating: sampleDestinations[0].rating,
-                      ), // _destinationCard
+                      child: _destinationCard(context, sampleDestinations[0]),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: _destinationCard(
-                        sampleDestinations[1].name,
-                        sampleDestinations[1].location,
-                        sampleDestinations[1].imageAsset,
-                        _formatPrice(sampleDestinations[1].price),
-                        rating: sampleDestinations[1].rating,
-                      ), // _destinationCard
+                      child: _destinationCard(context, sampleDestinations[1]),
                     ),
                   ], // children của Row
                 ),
@@ -234,7 +223,7 @@ class TravelHomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                _suggestionCard(),
+                _suggestionCard(context),
                 const SizedBox(height: 20),
               ], // children của Column chính
             ),
@@ -427,46 +416,45 @@ class TravelHomeScreen extends StatelessWidget {
     );
   } // _weekendBanner
 
-  // Phần 5: dựng một thẻ địa điểm.
-  // Chỉ trái tim là nút bấm trên thẻ.
-  Widget _destinationCard(
-    String name,
-    String location,
-    String imagePath,
-    String price, {
-    required double rating,
-  }) {
+  // Phần 5: ảnh mở xem trước, thông tin mở chi tiết.
+  Widget _destinationCard(BuildContext context, Destination destination) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
       ),
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(14),
-                child: AspectRatio(
-                  aspectRatio: 314 / 258,
-                  child: Image.asset(
-                    imagePath,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+              // Chỉ vùng ảnh mở hộp thoại xem trước.
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  _showImagePreview(context, destination);
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: AspectRatio(
+                    aspectRatio: 314 / 258,
+                    child: Image.asset(
+                      destination.imageAsset,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
 
+              // Tim nằm riêng trong Stack, không nằm trong vùng bấm ảnh.
               Positioned(
                 top: 8,
                 right: 8,
                 child: IconButton(
-                  // Chưa lưu địa điểm hoặc đổi trạng thái tim.
                   onPressed: () {},
-                  tooltip: 'Lưu $name',
+                  tooltip: 'Lưu ${destination.name}',
                   style: IconButton.styleFrom(
                     backgroundColor: Colors.white,
                     padding: const EdgeInsets.all(7),
@@ -482,132 +470,53 @@ class TravelHomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ], // children của Stack
+            ],
           ),
-          const SizedBox(height: 14),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: _darkText,
-                  ),
-                ),
-                const SizedBox(height: 10),
-
-                Row(
+          // Cả vùng thông tin, gồm khoảng đệm, mở chi tiết.
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              _openDestinationDetail(context, destination);
+            },
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(4, 14, 4, 4),
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      'assets/location.png',
-                      width: 14,
-                      height: 14,
-                      fit: BoxFit.contain,
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        location,
-                        style: const TextStyle(fontSize: 12, color: _mutedText),
+                    Text(
+                      destination.name,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: _darkText,
                       ),
                     ),
-                  ], // children của Row
-                ),
-                const SizedBox(height: 12),
-
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/star.png',
-                      width: 16,
-                      height: 16,
-                      fit: BoxFit.contain,
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      rating.toStringAsFixed(1),
-                      style: const TextStyle(fontSize: 12, color: _darkText),
-                    ),
-                  ], // children của Row
-                ),
-                const SizedBox(height: 12),
-
-                Text(
-                  price,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: _teal,
-                  ),
-                ),
-                const SizedBox(height: 4),
-              ], // children của Column
-            ),
-          ),
-        ], // children của Column
-      ),
-    );
-  } // _destinationCard
-
-  // Phần 6: dựng thẻ Hội An.
-  Widget _suggestionCard() {
-    final destination = sampleDestinations[2];
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-      ),
-
-      child: Row(
-        children: [
-          Expanded(
-            flex: 3,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(14),
-              child: AspectRatio(
-                aspectRatio: 214 / 166,
-                child: Image.asset(destination.imageAsset, fit: BoxFit.cover),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-
-          Expanded(
-            flex: 6,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  destination.name,
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: _darkText,
-                  ),
-                ),
-                const SizedBox(height: 8),
-
-                const Text(
-                  'Văn hóa và ẩm thực',
-                  style: TextStyle(fontSize: 11, color: _mutedText),
-                ),
-                const SizedBox(height: 14),
-
-                // Giá xuống hàng nếu không đủ chiều rộng.
-                Wrap(
-                  spacing: 16,
-                  runSpacing: 8,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
+                    const SizedBox(height: 10),
                     Row(
-                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          'assets/location.png',
+                          width: 14,
+                          height: 14,
+                          fit: BoxFit.contain,
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            destination.location,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: _mutedText,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
                       children: [
                         Image.asset(
                           'assets/star.png',
@@ -623,9 +532,9 @@ class TravelHomeScreen extends StatelessWidget {
                             color: _darkText,
                           ),
                         ),
-                      ], // children của Row
+                      ],
                     ),
-
+                    const SizedBox(height: 12),
                     Text(
                       _formatPrice(destination.price),
                       style: const TextStyle(
@@ -634,15 +543,145 @@ class TravelHomeScreen extends StatelessWidget {
                         color: _teal,
                       ),
                     ),
-                  ], // children của Wrap
+                  ],
                 ),
-              ], // children của Column
+              ),
             ),
           ),
-        ], // children của Row
+        ],
       ),
     );
-  } // _suggestionCard
+  }
+
+  // Phần 6: thẻ Hội An có vùng ảnh trái và thông tin phải.
+  Widget _suggestionCard(BuildContext context) {
+    final destination = sampleDestinations[2];
+
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                _showImagePreview(context, destination);
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: AspectRatio(
+                  aspectRatio: 214 / 166,
+                  child: Image.asset(destination.imageAsset, fit: BoxFit.cover),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            flex: 6,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                _openDestinationDetail(context, destination);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      destination.name,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: _darkText,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Văn hóa và ẩm thực',
+                      style: TextStyle(fontSize: 11, color: _mutedText),
+                    ),
+                    const SizedBox(height: 14),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 8,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/star.png',
+                              width: 16,
+                              height: 16,
+                              fit: BoxFit.contain,
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              destination.rating.toStringAsFixed(1),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: _darkText,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          _formatPrice(destination.price),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: _teal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Mở ảnh lớn trên trang chủ; bấm ngoài để đóng.
+  void _showImagePreview(BuildContext context, Destination destination) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.black87,
+      builder: (dialogContext) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          insetPadding: const EdgeInsets.all(24),
+          child: Image.asset(
+            destination.imageAsset,
+            fit: BoxFit.contain,
+            semanticLabel: 'Ảnh ${destination.name}',
+          ),
+        );
+      },
+    );
+  }
+
+  // Mở chi tiết bằng đối tượng của thẻ đang bấm.
+  void _openDestinationDetail(BuildContext context, Destination destination) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => DestinationDetailScreen(destination: destination),
+      ),
+    );
+  }
 
   // Phần 7: bấm được cả vùng biểu tượng và chữ.
   Widget _bottomItem(
