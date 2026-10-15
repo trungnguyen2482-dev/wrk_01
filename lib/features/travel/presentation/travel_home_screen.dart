@@ -140,21 +140,25 @@ class TravelHomeScreen extends StatelessWidget {
                       'Biển',
                       'assets/beach.png',
                       const Color(0xFFDFF2EF),
+                      'beach',
                     ), // _category
                     _category(
                       'Núi',
                       'assets/mountain.png',
                       const Color(0xFFEDE7FA),
+                      'mountain',
                     ), // _category
                     _category(
                       'Thành phố',
                       'assets/city.png',
                       const Color(0xFFFBEBDD),
+                      'city',
                     ), // _category
                     _category(
                       'Cắm trại',
                       'assets/camp.png',
                       const Color(0xFFE7EDFF),
+                      'camp',
                     ), // _category
                   ], // children của Row
                 ),
@@ -257,7 +261,12 @@ class TravelHomeScreen extends StatelessWidget {
   } // build
 
   // Phần 3: vùng bấm gồm cả biểu tượng và chữ.
-  Widget _category(String label, String imagePath, Color backgroundColor) {
+  Widget _category(
+    String label,
+    String imagePath,
+    Color backgroundColor,
+    String category,
+  ) {
     return Expanded(
       child: Padding(
         // Tách vùng bấm khỏi danh mục bên cạnh.
@@ -269,8 +278,15 @@ class TravelHomeScreen extends StatelessWidget {
                 .toDouble();
 
             return TextButton(
-              // Bấm được, chưa thực hiện chức năng.
-              onPressed: () {},
+              // Mở danh sách với danh mục tương ứng.
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (context) =>
+                        DestinationListScreen(initialCategory: category),
+                  ),
+                );
+              },
 
               // Cắt hiệu ứng bấm theo đường bo của nút.
               clipBehavior: Clip.antiAlias,
