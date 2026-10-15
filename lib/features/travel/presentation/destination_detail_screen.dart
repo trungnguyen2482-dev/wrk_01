@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/du_lieu_mau.dart';
+import 'destination_gallery_screen.dart';
 
 class DestinationDetailScreen extends StatelessWidget {
   const DestinationDetailScreen({super.key, required this.destination});
@@ -69,8 +70,10 @@ class DestinationDetailScreen extends StatelessWidget {
                     right: 12,
                     bottom: 12,
                     child: TextButton(
-                      // Sẽ mở thư viện ảnh ở bước sau.
-                      onPressed: () {},
+                      // Mở thư viện từ ảnh đầu tiên.
+                      onPressed: () {
+                        _openGallery(context, 0);
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor: _teal,
@@ -184,10 +187,16 @@ class DestinationDetailScreen extends StatelessWidget {
                   ) ...[
                     if (index > 0) const SizedBox(width: 12),
                     Expanded(
-                      child: Image.asset(
-                        destination.galleryAssets[index],
-                        width: double.infinity,
-                        fit: BoxFit.contain,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          _openGallery(context, index);
+                        },
+                        child: Image.asset(
+                          destination.galleryAssets[index],
+                          width: double.infinity,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ],
@@ -195,6 +204,18 @@ class DestinationDetailScreen extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // Truyền địa điểm và vị trí ảnh được bấm sang thư viện.
+  void _openGallery(BuildContext context, int initialIndex) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => DestinationGalleryScreen(
+          destination: destination,
+          initialIndex: initialIndex,
         ),
       ),
     );
