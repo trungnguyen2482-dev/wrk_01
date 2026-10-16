@@ -1,0 +1,40 @@
+name: flutter_application_1
+description: "A new Flutter project."
+
+# Không cho phép xuất bản package lên pub.dev.
+publish_to: 'none'
+
+# Phiên bản ứng dụng và số bản dựng.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.4
+
+# Các thư viện ứng dụng sử dụng.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+# Các thư viện phục vụ kiểm thử và kiểm tra code.
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+# Cấu hình dành riêng cho Flutter.
+flutter:
+  # Cho phép sử dụng các Icon có sẵn của Material.
+  uses-material-design: true
+
+  # Đưa các ảnh trong thư mục assets vào ứng dụng.
+  assets:
+    - assets/
+
+  # Font Baloo2.
+  fonts:
+    - family: Baloo2
+      fonts:
+        - asset: assets/fonts/baloo_2_variable.ttf

@@ -1,0 +1,27 @@
+CÂU HỎI GỬI NGƯỜI HƯỚNG DẪN
+Bài thực tập: màn hình đăng nhập demo “Lên kèo!”
+Project/package: flutter_application_1
+Repository cá nhân: https://github.com/trungnguyen2482-dev/wrk-01 (Private)
+Nhánh tính năng: feature/login-screen
+PR đã mở: https://github.com/trungnguyen2482-dev/wrk-01/pull/1
+Nhánh nhận PR hiện tại: main (mặc định thực tế của repository mới)
+
+1. Anh/chị cung cấp username GitHub của reviewer được chỉ định cho PR này?
+   Reviewer cần có quyền truy cập repository Private trước khi gán review.
+   Em chưa tự chọn hoặc mời người khác.
+
+2. Bài repo cá nhân có thể dùng nhánh mặc định của repository làm nhánh nhận PR
+   hay công ty yêu cầu develop/staging cụ thể?
+   Tài liệu chỉ nêu develop/staging làm ví dụ; project ban đầu chưa có nhánh chung.
+
+3. Repository cá nhân Private đủ cho bài nộp tạm hay cần chuyển sang repository
+   thuộc tổ chức công ty? Nếu có, xin URL repo và hướng dẫn quyền truy cập.
+
+PHẠM VI ĐÃ LÀM
+Chỉ màn hình đăng nhập demo: email, mật khẩu, hiện/ẩn, Form validation và
+SnackBar. Không kết nối tài khoản, API hoặc tính năng trò chơi.
+Tám widget test đạt; analyze sạch; build web thành công; đã xem giao diện
+Chrome headless ở kích thước desktop và điện thoại.
+
+CHƯA KIỂM CHỨNG TRÊN THIẾT BỊ
+Bàn phím thật trên Android/iOS; hiện có test mô phỏng viewInsets.
