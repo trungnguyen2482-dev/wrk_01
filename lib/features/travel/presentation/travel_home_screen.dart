@@ -8,10 +8,10 @@ class TravelHomeScreen extends StatelessWidget {
   const TravelHomeScreen({super.key});
 
   // Màu dùng chung trong màn hình.
-  static const _background = Color(0xFFF6F7F9);
-  static const _darkText = Color(0xFF20384C);
-  static const _mutedText = Color(0xFF7C899C);
-  static const _teal = Color(0xFF218C80);
+  static const _background = Color(0xFFF7F8FA);
+  static const _darkText = Color(0xFF20364B);
+  static const _mutedText = Color(0xFF758292);
+  static const _teal = Color(0xFF21867A);
   static const _bannerColor = Color(0xFF203F4C);
   static const _buttonColor = Color(0xFFE9B878);
 
@@ -19,11 +19,8 @@ class TravelHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        textTheme: Theme.of(context).textTheme.apply(
-          fontFamily: 'Roboto',
-          bodyColor: _darkText,
-          displayColor: _darkText,
-        ), // TextTheme
+        textTheme: Theme.of(context).textTheme
+            .apply(bodyColor: _darkText, displayColor: _darkText), // TextTheme
       ), // ThemeData
 
       child: Scaffold(
@@ -46,7 +43,7 @@ class TravelHomeScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Chào Minh Anh',
-                            style: TextStyle(fontSize: 14, color: _mutedText),
+                            style: TextStyle(fontSize: 13, color: _mutedText),
                           ),
                           SizedBox(height: 8),
                           Text(
@@ -87,7 +84,7 @@ class TravelHomeScreen extends StatelessWidget {
 
                 // 2. Thanh tìm kiếm: nhập được chữ.
                 TextField(
-                  style: const TextStyle(fontSize: 14, color: _darkText), //
+                  style: const TextStyle(fontSize: 13, color: _darkText), //
                   textInputAction: TextInputAction.search,
 
                   // Nhấn phím tìm kiếm chỉ đóng bàn phím.
@@ -98,7 +95,7 @@ class TravelHomeScreen extends StatelessWidget {
 
                   decoration: InputDecoration(
                     hintText: 'Tìm địa điểm yêu thích',
-                    hintStyle: const TextStyle(fontSize: 14, color: _mutedText),
+                    hintStyle: const TextStyle(fontSize: 13, color: _mutedText),
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(
@@ -358,8 +355,8 @@ class TravelHomeScreen extends StatelessWidget {
           // Chiều rộng ảnh thay đổi theo chiều rộng banner.
           final imageWidth = constraints.maxWidth * 0.40;
 
-          // Giảm nhẹ chữ khi banner hẹp.
-          final titleSize = constraints.maxWidth < 300 ? 16.0 : 18.0;
+          // Cỡ tiêu đề nằm trong khoảng quy định.
+          final titleSize = 19.0;
 
           return Row(
             children: [
@@ -444,7 +441,7 @@ class TravelHomeScreen extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -511,7 +508,7 @@ class TravelHomeScreen extends StatelessWidget {
                     Text(
                       destination.name,
                       style: const TextStyle(
-                        fontSize: 17,
+                        fontSize: 19,
                         fontWeight: FontWeight.bold,
                         color: _darkText,
                       ),
@@ -560,7 +557,7 @@ class TravelHomeScreen extends StatelessWidget {
                     Text(
                       _formatPrice(destination.price),
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 13,
                         fontWeight: FontWeight.bold,
                         color: _teal,
                       ),
@@ -583,7 +580,7 @@ class TravelHomeScreen extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
@@ -620,7 +617,7 @@ class TravelHomeScreen extends StatelessWidget {
                     Text(
                       destination.name,
                       style: const TextStyle(
-                        fontSize: 17,
+                        fontSize: 19,
                         fontWeight: FontWeight.bold,
                         color: _darkText,
                       ),
@@ -656,7 +653,7 @@ class TravelHomeScreen extends StatelessWidget {
                         Text(
                           _formatPrice(destination.price),
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold,
                             color: _teal,
                           ),
