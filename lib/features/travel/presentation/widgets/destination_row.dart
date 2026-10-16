@@ -38,7 +38,7 @@ class DestinationRow extends StatelessWidget {
                 Text(
                   destination.name,
                   style: const TextStyle(
-                    fontSize: 17,
+                    fontSize: 19,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF20364B),
                   ),
@@ -76,7 +76,7 @@ class DestinationRow extends StatelessWidget {
                 Text(
                   _formatPrice(destination.price),
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 13,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF21867A),
                   ),

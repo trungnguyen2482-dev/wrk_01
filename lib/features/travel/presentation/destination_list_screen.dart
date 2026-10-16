@@ -80,11 +80,18 @@ class _DestinationListScreenState extends State<DestinationListScreen> {
                 ],
               ),
               const SizedBox(height: 24),
-              const Text(
-                'Chọn nơi bạn muốn khám phá',
-                style: TextStyle(fontSize: 12, color: Color(0xFF758292)),
-              ),
-              const SizedBox(height: 16),
+              if (destinations.isNotEmpty) ...[
+                Text(
+                  _selectedCategory == 'all'
+                      ? 'Chọn nơi bạn muốn khám phá'
+                      : '${destinations.length} địa điểm dành cho bạn',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF758292),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
 
               // Hàng chip luôn có mặt, kể cả khi kết quả rỗng.
               SingleChildScrollView(
@@ -165,30 +172,81 @@ class _DestinationListScreenState extends State<DestinationListScreen> {
   Widget _emptyState() {
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.map_outlined, size: 64, color: Color(0xFF758292)),
-            const SizedBox(height: 20),
-            const Text(
-              'Chưa có địa điểm trong danh mục này',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: Color(0xFF758292)),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Đóng danh sách để trở về trang chủ đã mở nó.
-                Navigator.of(context).maybePop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF21867A),
-                foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 110,
+                height: 110,
+                padding: const EdgeInsets.all(32),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE7EDFF),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Image.asset('assets/camp.png', fit: BoxFit.contain),
               ),
-              child: const Text('Quay lại khám phá'),
-            ),
-          ],
+              const SizedBox(height: 32),
+              const Text(
+                'Chưa có địa điểm',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF20364B),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Danh mục này hiện chưa có dữ liệu.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  height: 1.5,
+                  color: Color(0xFF758292),
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Em có thể khám phá danh mục khác.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  height: 1.5,
+                  color: Color(0xFF758292),
+                ),
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: 204,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).maybePop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF21867A),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    minimumSize: const Size(0, 48),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Quay lại khám phá',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
