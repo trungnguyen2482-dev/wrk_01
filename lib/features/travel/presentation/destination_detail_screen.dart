@@ -87,7 +87,10 @@ class DestinationDetailScreen extends StatelessWidget {
                       ),
                       child: Text(
                         'Xem ${destination.galleryAssets.length} ảnh',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -143,7 +146,7 @@ class DestinationDetailScreen extends StatelessWidget {
                   color: _teal,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
 
               // 4. Giới thiệu.
               const Text(

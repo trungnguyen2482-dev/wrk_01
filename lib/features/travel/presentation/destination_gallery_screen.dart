@@ -109,58 +109,62 @@ class _DestinationGalleryScreenState extends State<DestinationGalleryScreen> {
               ),
             ),
 
-            // 2. Vùng ảnh nhận chiều cao còn lại và vuốt ngang.
+            // 2. Ảnh, hướng dẫn và chấm nằm trong cùng vùng cuộn.
             Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: images.length,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return Center(
-                    child: Image.asset(
-                      images[index],
-                      width: double.infinity,
-                      fit: BoxFit.contain,
-                      semanticLabel: 'Ảnh ${index + 1} của ${destination.name}',
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(0, 32, 0, 24),
+                child: Column(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 3 / 2,
+                      child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: images.length,
+                        onPageChanged: (index) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
+                        itemBuilder: (context, index) {
+                          return Center(
+                            child: Image.asset(
+                              images[index],
+                              width: double.infinity,
+                              fit: BoxFit.contain,
+                              semanticLabel:
+                                  'Ảnh ${index + 1} của ${destination.name}',
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  );
-                },
-              ),
-            ),
-
-            // 3. Hướng dẫn và chấm đánh dấu ảnh đang xem.
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  const Text(
-                    'Vuốt ngang để xem ảnh tiếp',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 13, color: Color(0xFF758292)),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      for (var index = 0; index < images.length; index++)
-                        Container(
-                          width: 12,
-                          height: 12,
-                          margin: const EdgeInsets.symmetric(horizontal: 6),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: index == _currentIndex
-                                ? const Color(0xFF21867A)
-                                : const Color(0xFFD0DADD),
+                    const SizedBox(height: 32),
+                    const Text(
+                      'Vuốt ngang để xem ảnh tiếp',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 13, color: Color(0xFF758292)),
+                    ),
+                    const SizedBox(height: 32),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 12,
+                      runSpacing: 12,
+                      children: [
+                        for (var index = 0; index < images.length; index++)
+                          Container(
+                            width: 12,
+                            height: 12,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: index == _currentIndex
+                                  ? const Color(0xFF21867A)
+                                  : const Color(0xFFD0DADD),
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
