@@ -1,11 +1,8 @@
-# Lên kèo! — đăng nhập và danh sách trò chơi demo
+﻿# Màn hình giao diện trang du lịch — Tuần 2–3
 
-Ứng dụng Flutter thực tập, giữ package và thư mục `flutter_application_1`.
-Tên ứng dụng là **Lên kèo!**; Truth or Dare chỉ là một trò chơi dự kiến trong
-app. Phạm vi hiện tại gồm màn hình đăng nhập và danh sách sáu trò chơi;
-chưa triển khai game thật.
+Dựng giao diện theo mẫu, sử dụng dữ liệu địa điểm và ảnh có sẵn trong project.
 
-## Chạy
+## Cách chạy
 
 Mở terminal tại thư mục `flutter_application_1`:
 
@@ -14,97 +11,49 @@ flutter pub get
 flutter run -d chrome
 ```
 
-## Hành vi
+`lib/main.dart` chạy `MyApp` và mở `TravelHomeScreen`.
 
-- Nhập email và mật khẩu; mật khẩu mặc định được che.
-- Nút mắt hiện/ẩn mật khẩu, không thay đổi nội dung.
-- Form trim email hai đầu, kiểm tra email không rỗng và định dạng cơ bản.
-- Mật khẩu không rỗng, không trim; chuỗi chỉ có dấu cách vẫn hợp lệ
-  theo yêu cầu demo hiện tại.
-- Hiện lỗi dưới đúng ô nhập; dữ liệu hợp lệ mở màn hình danh sách.
-- Danh sách gồm Truth or Dare, Coup, Ma sói, Đoán từ, Đoán hình và
-  Thử thách theo đội. Bấm thẻ hiện “[Tên trò] đang được phát triển”.
-- Mũi tên quay lại hoặc Back trở về đăng nhập, giữ nguyên nội dung form.
-- Không xác thực tài khoản thật, không gọi API, lưu hay log mật khẩu.
-- Bố cục cuộn khi cửa sổ thấp hoặc bàn phím xuất hiện.
+## Các màn hình và tương tác
 
-## Cấu trúc công ty
+- Trang chủ: bấm ảnh để xem trước, bấm ngoài để đóng;
+  bấm thông tin để mở chi tiết địa điểm.
+- Xem tất cả và nút Khám phá ngay trên banner mở danh sách 6 địa điểm.
+- Lọc danh mục từ trang chủ hoặc bằng hàng chip:
+  - Biển: Hạ Long, Nha Trang.
+  - Núi: Đà Lạt, Sa Pa.
+  - Thành phố: Hội An, Đà Nẵng.
+  - Tất cả: đủ 6 địa điểm.
+- Cắm trại hiển thị thông báo rỗng, có thể quay lại hoặc đổi danh mục.
+- Chi tiết hiển thị tên, tỉnh thành, giá, đánh giá, mô tả và ảnh
+  của địa điểm được chọn.
+- Thư viện mở đúng ảnh được bấm; vuốt ngang cập nhật số ảnh
+  và chấm đánh dấu.
+- Quay lại từ thư viện qua chi tiết về danh sách giữ danh mục đã chọn.
+- Mở chi tiết trực tiếp từ trang chủ rồi quay lại đúng trang chủ.
 
-```text
-lib/
-  app/
-    app.dart
-    app_theme.dart
-  core/
-    constants/
-    network/
-    widgets/
-      party_background.dart
-      friends_illustration.dart
-  features/
-    auth/
-      data/
-      domain/
-      presentation/
-        login_screen.dart
-    home/
-      presentation/
-        game_list_screen.dart
-        widgets/
-          game_card.dart
-  main.dart
-```
+## Dữ liệu và cách triển khai
 
-Các thư mục chưa dùng giữ bằng `.gitkeep`; không thêm tầng xử lý hoặc
-dependency chưa cần thiết. `LoginScreen` dùng Form và state cục bộ,
-giải phóng TextEditingController trong dispose.
-
-## Giao diện theo mẫu
-
-Minh họa nhóm bạn và xúc xắc được vẽ vector bằng CustomPainter, tách riêng
-khỏi form thật. Nền tím nhạt có trang trí nhẹ; thẻ trắng bo góc, nhãn luôn
-ở phía trên ô nhập và nút tím tươi. Không dùng ảnh mockup, khung điện thoại
-hoặc thanh trạng thái làm giao diện. Khi bàn phím xuất hiện, minh họa thu nhỏ
-và toàn bộ nội dung vẫn cuộn được.
-
-Chữ thương hiệu dùng font Baloo 2 đóng gói tại assets/fonts/, hỗ trợ tiếng Việt.
-Nguồn: https://github.com/google/fonts/tree/main/ofl/baloo2
-Giấy phép SIL OFL được lưu cùng font trong assets/fonts/ofl.txt.
-Không thêm package hoặc tải font khi app chạy.
+- Dữ liệu mẫu: `lib/data/du_lieu_mau.dart`.
+- Các màn hình: `lib/features/travel/presentation/`.
+- `Image.asset` hiển thị ảnh từ assets.
+- `ListView.builder` dựng danh sách địa điểm.
+- Constructor truyền đối tượng `Destination` sang chi tiết.
+- `where(...).toList()` lọc địa điểm theo danh mục.
+- `setState` cập nhật danh mục và vị trí ảnh.
+- `PageView.builder` dựng các trang ảnh.
+- `PageController` đặt trang mở đầu bằng `initialPage`.
+- `onPageChanged` cập nhật số ảnh và chấm đánh dấu.
+- Sử dụng `SafeArea`, `Expanded` và vùng cuộn cho bố cục màn hình nhỏ.
 
 ## Kiểm tra
 
 ```powershell
-dart format lib/core/widgets lib/features/auth/presentation/login_screen.dart lib/features/home/presentation test/widget_test.dart
-flutter analyze
-flutter test
-flutter build web --no-web-resources-cdn
+flutter analyze lib/features/travel
 ```
 
-Widget test bao phủ ô trống, email sai định dạng, mật khẩu rỗng,
-email được trim, mật khẩu giữ nguyên, điều hướng và quay lại,
-bấm từng trò, nút mắt, màn hình 320 × 480 với hệ số chữ 2
-và vùng bàn phím mô phỏng 200 pixels.
-Chrome headless đã được chụp và kiểm tra ở desktop 1280 × 900
-và điện thoại 360 × 740; đã kiểm tra thêm 320 × 480 sau cuộn.
-Bàn phím thật trên thiết bị chưa được kiểm tra.
+Đã kiểm tra thủ công đạt 9/9 mục trong checklist trước demo:
+mở chi tiết từ trang chủ, danh sách đủ 6 địa điểm, lọc danh mục,
+trạng thái rỗng, dữ liệu chi tiết, thư viện ảnh, giữ danh mục khi quay lại,
+quay đúng trang chủ và thao tác lặp lại trên màn hình nhỏ.
 
-## Git và bàn giao
-
-Theo yêu cầu mới nhất, tạm dừng toàn bộ thao tác Git. Lượt bổ sung danh sách
-không chạy lệnh Git, không stage/commit/push hoặc cập nhật PR.
-Thông tin repository và PR dưới đây là trạng thái bàn giao trước lượt này,
-chưa bao gồm thay đổi danh sách đang nằm cục bộ. Repository code công ty
-phải Private; các thao tác Git tiếp theo do người dùng thực hiện.
-
-Nhánh làm việc: `feature/login-screen`, đã push lên repository
-[trungnguyen2482-dev/wrk-01](https://github.com/trungnguyen2482-dev/wrk-01).
-Đã kiểm tra repository là **Private** trước khi push.
-[PR #1](https://github.com/trungnguyen2482-dev/wrk-01/pull/1) vào nhánh mặc định
-thực tế `main`, đã fetch trước khi đặt nền nhánh feature.
-Reviewer chưa được cung cấp. Không tự approve hoặc merge PR.
-
-- [Báo cáo đối chiếu](docs/onboarding_report.md)
-- [Báo cáo danh sách và điều hướng](docs/game_list_report.md)
-- [Câu hỏi gửi người hướng dẫn](docs/questions_for_mentor.txt)
-- [Nội dung PR đã chuẩn bị](docs/pr_description.md)
+Đã kiểm tra giao diện trên Chrome ở 390 × 844 và 360 × 640.
