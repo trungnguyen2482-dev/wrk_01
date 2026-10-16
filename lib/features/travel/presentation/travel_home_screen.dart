@@ -107,7 +107,7 @@ class TravelHomeScreen extends StatelessWidget {
                     ),
 
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(12),
                       child: Image.asset(
                         'assets/search.png',
                         width: 24,
@@ -316,7 +316,7 @@ class TravelHomeScreen extends StatelessWidget {
                     child: Container(
                       width: size,
                       height: size,
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: BorderRadius.circular(18),
@@ -356,7 +356,7 @@ class TravelHomeScreen extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           // Chiều rộng ảnh thay đổi theo chiều rộng banner.
-          final imageWidth = constraints.maxWidth * 0.34;
+          final imageWidth = constraints.maxWidth * 0.40;
 
           // Giảm nhẹ chữ khi banner hẹp.
           final titleSize = constraints.maxWidth < 300 ? 16.0 : 18.0;
@@ -631,10 +631,8 @@ class TravelHomeScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 11, color: _mutedText),
                     ),
                     const SizedBox(height: 14),
-                    Wrap(
-                      spacing: 16,
-                      runSpacing: 8,
-                      crossAxisAlignment: WrapCrossAlignment.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           mainAxisSize: MainAxisSize.min,
@@ -741,8 +739,8 @@ class TravelHomeScreen extends StatelessWidget {
               child: Center(
                 child: Image.asset(
                   imagePath,
-                  width: 24,
-                  height: 24,
+                  width: 28,
+                  height: 28,
                   fit: BoxFit.contain,
                 ),
               ),
